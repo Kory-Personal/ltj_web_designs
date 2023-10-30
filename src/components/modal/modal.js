@@ -16,14 +16,21 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal(page) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button onClick={handleOpen}>Open modal</Button>
+      <Button
+          key={''}
+          onClick={handleOpen}
+          sx={{ my: 2, color: 'white', display: 'block' }}
+          color='success'
+          >
+          Contact
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
