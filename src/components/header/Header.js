@@ -37,7 +37,6 @@ export default function Header(props) {
     const handleCloseNavMenu = () => {
       setAnchorElNav(null);
     };
-    const basicModal = BasicModal();
 
     return (
             <AppBar position="static" color='info' enableColorOnDark="true">
