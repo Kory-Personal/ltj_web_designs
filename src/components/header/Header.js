@@ -35,6 +35,7 @@ export default function Header(props) {
     };
   
     const handleCloseNavMenu = () => {
+        console.log("hello sir")
       setAnchorElNav(null);
     };
 
@@ -76,7 +77,7 @@ export default function Header(props) {
                     anchorEl={anchorElNav}
                     anchorOrigin={{
                         vertical: 'bottom',
-                        horizontal: 'left',
+                        horizontal: 'right',
                     }}
                     keepMounted
                     transformOrigin={{
@@ -90,13 +91,20 @@ export default function Header(props) {
                     }}
                     >
                     {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
-                        </MenuItem>
+                        <If condition={page === "Contact"}>
+                            <Then>
+                                <BasicModal orientation="mobile" handleCloseNavMenu={handleCloseNavMenu}/>
+                            </Then>
+                            <Else>
+                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">{page}</Typography>
+                                </MenuItem>
+                            </Else>
+                        </If>
+                    
                     ))}
                     </Menu>
                 </Box>
-                <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                 <Typography
                     variant="h5"
                     noWrap

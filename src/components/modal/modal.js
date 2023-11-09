@@ -3,9 +3,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+import { If, Then, Else } from "react-if";
+
 import axios from 'axios';
-import { PropaneSharp } from '@mui/icons-material';
+
+import ReCAPTCHA from "react-google-recaptcha";
 
 const style = {
   position: 'absolute',
@@ -27,8 +31,14 @@ export default function BasicModal(props) {
   const [last, setLast] = React.useState();
   const [email, setEmail] = React.useState();
   const [message, setMessage] = React.useState();
+  const [captcha, setCaptcha] = React.useState();
+  const [recaptchaValid, setRecaptchaValid] = React.useState(false);
+
+  const recaptchaRef = React.createRef();
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleCloseNavMenu = props.handleCloseNavMenu;
 
   const handleLastInput = (e) => {
     e.preventDefault();
@@ -48,57 +58,66 @@ export default function BasicModal(props) {
     }
   }
 
+  const onChange = (value) => {
+    console.log("Captcha value:", value);
+    console.log({recaptchaRef})
+    const recaptchaValue = recaptchaRef.current.getValue();
+
+    if(recaptchaValue != ''){
+      setRecaptchaValid(true);
+    }
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    const values = {
-      name: first + ' ' + last,
-      email,
-      number,
-      message
-    }
-
+    console.log({email})
     const name = first + ' ' + last
     try {
-        // const verify = process.env.REACT_APP_LOCAL
-        
-        const verify = 'https://isitarealemail.com/api/email/validate'
-        const isVerified = await axios({
-            method: 'GET',
-            url: `${verify}?email=${email}`,
-            auth: 
-        })
+      if(recaptchaValid){
 
-        console.log(isVerified.data)
-        if (isVerified.data === "valid") {
-            const URL = process.env.REACT_APP_LOCAL
-            await axios({
-                method: 'POST',
-                url: `${URL}/send`,
-                data: {
-                    name,
-                    email,
-                    number,
-                    message
-                },
-            })
-            e.target.reset();
-        } 
+        const URL = process.env.REACT_APP_LOCAL
+        await axios({
+          method: 'POST',
+          url: `${URL}/send`,
+          crossDomain: true,
+          data: {
+            name: name,
+            email: email,
+            number: number,
+            message:message,
+            captcha
+          },
+        })
+        handleClose();
+      } else {
+        alert("You must complete the reCaptcha Verification.")
+      }
     } catch (e) {
-        alert("Please enter a valid email.")
-        console.log(e);
+      alert("Please enter a valid email.")
+      console.log(e);
     }
 
   }
   return (
     <div>
-      <Button
-          key={''}
-          onClick={handleOpen}
-          sx={{ my: 2, color: 'white', display: 'block' }}
-          color='success'
-          >
-          Contact
-      </Button>
+      <If condition={props.orientation === "mobile"}>
+        <Then>
+          <MenuItem key={''} onClick={handleOpen}>
+          <Typography textAlign="center">Contact</Typography>
+          </MenuItem>
+        </Then>
+        <Else>
+          <Button
+              key={''}
+              onClick={handleOpen}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              color='success'
+              >
+              Contact
+          </Button>
+        </Else>
+      </If>
+            
       <Modal
         open={open}
         onClose={handleClose}
@@ -143,13 +162,19 @@ export default function BasicModal(props) {
             <TextField
               fullWidth
               id="Message"
-              label="Multiline"
+              label="Message"
               multiline
               rows={4}
               variant="standard"
               onChange={handleLastInput}
             />
             <Button onClick={onSubmit}>Submit</Button>
+            <Button onClick={handleClose}>Cancel</Button>
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.REACT_APP_SITE_KEY}
+              onChange={onChange}
+            />,
           </div>
         </Box>
       </Modal>
