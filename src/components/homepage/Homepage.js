@@ -1,31 +1,28 @@
-import {React} from 'react';
-
-import * as React from 'react';
+import React from 'react';
 import { Box, ThemeProvider } from '@mui/system';
+import { Typography } from '@mui/material';
 
-export default function BoxSx(props) {
+const style = {
+  position: 'absolute',
+  display: 'flex',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '75%',
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+export default function HomePage(props) {
   return (
-    <ThemeProvider
-      theme={{
-        palette: {
-          primary: {
-            main: '#007FFF',
-            dark: '#0066CC',
-          },
-        },
-      }}
-    >
       <Box
-        sx={{
-          width: 100,
-          height: 100,
-          borderRadius: 1,
-          bgcolor: 'primary.main',
-          '&:hover': {
-            bgcolor: 'primary.dark',
-          },
-        }}
-      />
-    </ThemeProvider>
+        sx={style}
+      >
+        <Typography>
+          Hello, my name is Kory Jackson. Welcome to my website. I am currently in the process of building it out as I continue to gain clients. As you can see it is a basic site. I appreciate you taking the time to visit. I am an individual web designer located in Tacoma, WA. I mainly work with small businesses and churches in the South Sound and surrounding areas, however, I am willing to take clients from all over. A few services I offer are website design, website maintenance, search engine optimization(SEO) and a few other services. If you are interested in knowing more, feel free to contact me. 
+        </Typography>
+      </Box>
   );
 }
