@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, ThemeProvider } from '@mui/system';
+import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
 
 const style = {

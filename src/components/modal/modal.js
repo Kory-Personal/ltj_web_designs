@@ -7,12 +7,6 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle'
-
-import IconButton from '@mui/material/IconButton';
-import Collapse from '@mui/material/Collapse';
-import CloseIcon from '@mui/icons-material/Close';
 
 // Node Modules
 import { If, Then, Else } from "react-if";
@@ -61,8 +55,6 @@ export default function BasicModal(props) {
   const [last, setLast] = useState();
   const [email, setEmail] = useState();
   const [message, setMessage] = useState();
-  const [captcha, setCaptcha] = useState(false);
-  const [values, setValues] = useState();
 
 
 
