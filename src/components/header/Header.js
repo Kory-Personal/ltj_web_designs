@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
+// import "./header.scss"
 // Images
 import Logo from "../../assets/images/LTJWebDesigns.png"
 
@@ -25,7 +26,7 @@ import BasicModal from '../modal/modal';
 import { If, Then, Else } from 'react-if';
 
 
-const pages = ['Products', 'Contact', 'Portfolio'];
+const pages = ['Services', 'About Me', 'Contact'];
 
 export default function Header(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -37,29 +38,15 @@ export default function Header(props) {
     const handleCloseNavMenu = () => {
       setAnchorElNav(null);
     };
-    const basicModal = BasicModal();
+
+
 
     return (
-            <AppBar position="static" color='info' enableColorOnDark="true">
+            <AppBar position="static" sx={{
+                backgroundColor: "#000000"
+            }} enableColorOnDark="true">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                <img src={Logo} alt="logo" width={200} style={{padding: "1em"}}/>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="a"
-                    href="#app-bar-with-responsive-menu"
-                    sx={{
-                    mr: 2,
-                    display: { xs: 'none', md: 'flex' },
-                    fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'inherit',
-                    textDecoration: 'none',
-                    }}
-                >
-                </Typography>
 
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
@@ -77,7 +64,7 @@ export default function Header(props) {
                     anchorEl={anchorElNav}
                     anchorOrigin={{
                         vertical: 'bottom',
-                        horizontal: 'left',
+                        horizontal: 'right',
                     }}
                     keepMounted
                     transformOrigin={{
@@ -91,30 +78,37 @@ export default function Header(props) {
                     }}
                     >
                     {pages.map((page) => (
-                        <MenuItem key={page} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
-                        </MenuItem>
+                        <If condition={page === "Contact"}>
+                            <Then>
+                                <BasicModal orientation="mobile" handleCloseNavMenu={handleCloseNavMenu}/>
+                            </Then>
+                            <Else>
+                                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center">{page}</Typography>
+                                </MenuItem>
+                            </Else>
+                        </If>
+                    
                     ))}
                     </Menu>
                 </Box>
-                <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                 <Typography
-                    variant="h5"
+                    variant="h6"
                     noWrap
                     component="a"
                     href="#app-bar-with-responsive-menu"
                     sx={{
                     mr: 2,
                     display: { xs: 'flex', md: 'none' },
-                    flexGrow: 1,
                     fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'success',
+                    fontWeight: 300,
+                    color: 'White',
                     textDecoration: 'none',
                     }}
                 >
+                    LTJ Web Designs
                 </Typography>
+                <img src={Logo} alt="logo" width={50} style={{padding: "1em"}}/>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     {pages.map((page) => (
                         <If condition={page === "Contact"}>
@@ -125,7 +119,7 @@ export default function Header(props) {
                                 <Button
                                     key={page}
                                     onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                    sx={{ my: 2, color: 'white', display: 'block', fontSize: '1.5em', paddingLeft: '2rem'}}
                                     color='success'
                                     >
                                     {page}
