@@ -1,11 +1,9 @@
 import { React, useState, useRef } from 'react';
 
 // Material UI Components
-import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import AlertTitle from '@mui/material/AlertTitle'
 
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -29,7 +27,6 @@ const style = {
 export default function ChildModal(props) {
   const [errorOpen, setErrorOpen] = useState(false);
   const [successOpen, setSuccessOpen] = useState(false);
-  const [transitionOpen, setTransitionOpen ] = useState(true);
 
   const recaptcha = useRef();
 
