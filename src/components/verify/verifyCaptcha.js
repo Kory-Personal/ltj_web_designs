@@ -1,53 +1,57 @@
-import * as React from 'react';
-import { CopyBlock, dracula } from "react-code-blocks"; // for code block
+import { React, useState, useRef } from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
+import { If, Then, Else } from "react-if";
 
+import axios from 'axios';
 
-const Captcha = require('2captcha');  // making request to 2captcha API
+import ReCAPTCHA from "react-google-recaptcha";
 
-const solver = new Captcha.Solver(process.env.REACT_APP_2CAPTCHA_API)
+const style = {
+  position: 'absolute',
+  display: 'flex',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
-export default function captchaVerify() {
-    const [sitekey, setSitekey] = useState('') // for storing sitekey from the user
-    const [url, setUrl] = useState('') // for storing url from the user
-    const [code, setCode] = useState('') // for storing code for the console
+export default function BasicModal(props) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleCloseNavMenu = props.handleCloseNavMenu;
 
-
-    const solveCaptcha = async () => {
-        await solver.hcaptcha(sitekey, url).then((response) => {
-            const token = response.data;
-            const codeSetup = `function login() {
-                setInterval(() => {
-                    document.body.appendChild(document.createElement \`iframe\`).contentWindow.localStorage.token = \`"${token}"\`
-                }, 50);
-                setTimeout(() => {
-                    location.reload();
-                }, 2500);
-            }
-            login()`;
-            setCode(codeSetup);
-        });
-    };
-
-    return (
-        <div className="App">
-          <div className='form-div'>
-            <FormLabel>Enter data-sitekey</FormLabel>
-            <Input type='text' onChange={(e) => setSitekey(e.target.value)} />
-            <FormLabel>Enter URL</FormLabel>
-            <Input type='text' onChange={(e) => setUrl(e.target.value)} />
-            <button className='button-div' onClick={solveCaptcha}>Solve Captcha</button>
-          </div>  
-          <div className='code-div'>  
-            {
-              code && 
-              <CopyBlock
-                text={code}
-                language={"jsx"}
-                showLineNumbers={false}
-                theme={dracula}
-              />
-            }
+  return (
+    <div>            
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          component="form"
+          sx={style}
+          noValidate
+          autoComplete="off"
+        >
+          <Typography textAlign={"center"}>
+            Thank you for contacting me, I will respond as quickly as I can. 
+          </Typography>
+          <div>
+            <Button onClick={handleClose}>Close</Button>
           </div>
-        </div>
-      )
+        </Box>
+      </Modal>
+    </div>
+  );
 }

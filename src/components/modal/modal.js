@@ -1,14 +1,27 @@
-import * as React from 'react';
+import { React, useState, useRef } from 'react';
+
+// Material UI Components
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle'
+
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import CloseIcon from '@mui/icons-material/Close';
+
+// Node Modules
 import { If, Then, Else } from "react-if";
+import { PatternFormat } from 'react-number-format';
 
 import axios from 'axios';
 
+
+// Internal Components
 import ReCAPTCHA from "react-google-recaptcha";
 
 const style = {
@@ -25,26 +38,27 @@ const style = {
 };
 
 export default function BasicModal(props) {
-  const [open, setOpen] = React.useState(false);
-  const [number, setNumber] = React.useState();
-  const [first, setFirst] = React.useState();
-  const [last, setLast] = React.useState();
-  const [email, setEmail] = React.useState();
-  const [message, setMessage] = React.useState();
-  const [captcha, setCaptcha] = React.useState();
-  const [recaptchaValid, setRecaptchaValid] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [transitionOpen, setTransitionOpen ] = useState(true);
+  const [number, setNumber] = useState();
+  const [first, setFirst] = useState();
+  const [last, setLast] = useState();
+  const [email, setEmail] = useState();
+  const [message, setMessage] = useState();
+  const [captcha, setCaptcha] = useState();
 
-  const recaptchaRef = React.createRef();
+  const recaptcha = useRef();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleCloseNavMenu = props.handleCloseNavMenu;
 
-  const handleLastInput = (e) => {
+  
+  const handleInput = (e) => {
     e.preventDefault();
-
+    
     const label = e.target.id;
-
+    
     if(label === "First Name") {
       setFirst(e.target.value)
     } else if (label === "Last Name") {
@@ -57,24 +71,24 @@ export default function BasicModal(props) {
       setMessage(e.target.value)
     }
   }
-
-  const onChange = (value) => {
-    console.log("Captcha value:", value);
-    console.log({recaptchaRef})
-    const recaptchaValue = recaptchaRef.current.getValue();
-
-    if(recaptchaValue != ''){
-      setRecaptchaValid(true);
+    const muiTestFieldProps = {
+      label: "Phone Number",
+      value: number,
+      onChange: handleInput,
+      name: "numberformat",
+      id: "formatted-numberformat-input",
+      variant: "standard",
     }
-  }
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const recaptchaValue = recaptcha.current.getValue();
     console.log({email})
     const name = first + ' ' + last
     try {
-      if(recaptchaValid){
-
+      if(!recaptchaValue){
+        alert("You must complete the reCaptcha Verification.")
+      } else {
         const URL = process.env.REACT_APP_LOCAL
         await axios({
           method: 'POST',
@@ -88,12 +102,18 @@ export default function BasicModal(props) {
             captcha
           },
         })
-        handleClose();
-      } else {
-        alert("You must complete the reCaptcha Verification.")
+        // handleClose();
+        return(
+          <>
+            <Alert severity="success">
+              <AlertTitle>Success</AlertTitle>
+            This is a success alert — <strong>check it out!</strong>
+            </Alert>
+          </>
+        )
+
       }
     } catch (e) {
-      alert("Please enter a valid email.")
       console.log(e);
     }
 
@@ -110,7 +130,7 @@ export default function BasicModal(props) {
           <Button
               key={''}
               onClick={handleOpen}
-              sx={{ my: 2, color: 'white', display: 'block' }}
+              sx={{ my: 2, color: 'white', display: 'block', fontSize: '1.5em', paddingLeft: '2rem'}}
               color='success'
               >
               Contact
@@ -136,28 +156,38 @@ export default function BasicModal(props) {
               id="First Name"
               label="First Name"
               variant="standard"
-              onChange={handleLastInput}
+              onChange={handleInput}
             />
             <TextField
               required
               id="Last Name"
               label="Last Name"
               variant="standard"
-              onChange={handleLastInput}
+              onChange={handleInput}
             />
             <TextField
               required
               id="E-Mail"
               label="E-Mail"
               variant="standard"
-              onChange={handleLastInput}
+              onChange={handleInput}
             />
-            <TextField
+            {/* <TextField
               required
               id="Phone Number"
               label="Phone Number"
               variant="standard"
-              onChange={handleLastInput}
+              value={numberFormat}
+              onChange={handleInput}
+            /> */}
+            <PatternFormat 
+              type="tel"
+              format="(###) ###-####" 
+              mask="_" 
+              value={number}
+              required
+              customInput={TextField}
+              {...muiTestFieldProps}
             />
             <TextField
               fullWidth
@@ -166,17 +196,37 @@ export default function BasicModal(props) {
               multiline
               rows={4}
               variant="standard"
-              onChange={handleLastInput}
+              onChange={handleInput}
             />
             <Button onClick={onSubmit}>Submit</Button>
             <Button onClick={handleClose}>Cancel</Button>
             <ReCAPTCHA
-              ref={recaptchaRef}
+              ref={recaptcha}
               sitekey={process.env.REACT_APP_SITE_KEY}
-              onChange={onChange}
             />,
           </div>
         </Box>
+        {/* <Box>
+          <Collapse in={transitionOpen!}>
+            <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setTransitionOpen(true);
+                  }}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}
+            >
+              I have received your message, I will get back to you as soon as I can. Thank you.
+            </Alert>
+          </Collapse>
+        </Box> */}
       </Modal>
     </div>
   );

@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
+// import "./header.scss"
 // Images
 import Logo from "../../assets/images/LTJWebDesigns.png"
 
@@ -25,7 +26,7 @@ import BasicModal from '../modal/modal';
 import { If, Then, Else } from 'react-if';
 
 
-const pages = ['Products', 'Contact', 'Portfolio'];
+const pages = ['Services', 'About Me', 'Contact'];
 
 export default function Header(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -35,12 +36,15 @@ export default function Header(props) {
     };
   
     const handleCloseNavMenu = () => {
-        console.log("hello sir")
       setAnchorElNav(null);
     };
 
+
+
     return (
-            <AppBar position="static" color='info' enableColorOnDark="true">
+            <AppBar position="static" sx={{
+                backgroundColor: "#000000"
+            }} enableColorOnDark="true">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                 <img src={Logo} alt="logo" width={200} style={{padding: "1em"}}/>
@@ -132,7 +136,7 @@ export default function Header(props) {
                                 <Button
                                     key={page}
                                     onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                    sx={{ my: 2, color: 'white', display: 'block', fontSize: '1.5em', paddingLeft: '2rem'}}
                                     color='success'
                                     >
                                     {page}
