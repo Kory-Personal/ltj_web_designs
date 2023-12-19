@@ -145,6 +145,7 @@ export default function BasicModal(props) {
                     {...muiTestFieldProps}
                   />
                   <TextField
+                    fullWidth
                     id="Message"
                     label="Message"
                     multiline
