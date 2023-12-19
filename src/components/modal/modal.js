@@ -88,6 +88,7 @@ export default function BasicModal(props) {
     
   }
     const muiTestFieldProps = {
+      fullWidth: true,
       label: "Phone Number",
       onChange: handleInput,
       id: "Phone Number",
@@ -116,6 +117,7 @@ export default function BasicModal(props) {
                 <div>
                   <TextField
                     required
+                    fullWidth
                     id="First Name"
                     label="First Name"
                     variant="standard"
@@ -123,6 +125,7 @@ export default function BasicModal(props) {
                   />
                   <TextField
                     required
+                    fullWidth
                     id="Last Name"
                     label="Last Name"
                     variant="standard"
@@ -130,6 +133,7 @@ export default function BasicModal(props) {
                   />
                   <TextField
                     required
+                    fullWidth
                     id="E-Mail"
                     label="E-Mail"
                     variant="standard"
