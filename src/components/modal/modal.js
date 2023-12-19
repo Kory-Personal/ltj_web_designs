@@ -1,4 +1,4 @@
-import { React, useState, useRef } from 'react';
+import { React, useState } from 'react';
 
 // Material UI Components
 import Box from '@mui/material/Box';
@@ -68,8 +68,6 @@ export default function BasicModal(props) {
     setOpen(false);
     setMobileOpen(false);
 }
-  const handleCloseNavMenu = props.handleCloseNavMenu;
-
   
   const handleInput = (e) => {
     e.preventDefault();
