@@ -6,11 +6,7 @@ export default function Footer() {
     return (
         <footer className="footer">
             <div>
-                <ul>
-                    <li>Contact</li>
-                    <li></li>
-                    <li></li>
-                </ul>
+                <p>&copy; LTJ Web Designs 2023</p>
             </div>
         </footer>
     )

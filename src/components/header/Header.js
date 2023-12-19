@@ -47,23 +47,6 @@ export default function Header(props) {
             }} enableColorOnDark="true">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                <img src={Logo} alt="logo" width={200} style={{padding: "1em"}}/>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="a"
-                    href="#app-bar-with-responsive-menu"
-                    sx={{
-                    mr: 2,
-                    display: { xs: 'none', md: 'flex' },
-                    fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'inherit',
-                    textDecoration: 'none',
-                    }}
-                >
-                </Typography>
 
                 <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                     <IconButton
@@ -110,22 +93,22 @@ export default function Header(props) {
                     </Menu>
                 </Box>
                 <Typography
-                    variant="h5"
+                    variant="h6"
                     noWrap
                     component="a"
                     href="#app-bar-with-responsive-menu"
                     sx={{
                     mr: 2,
                     display: { xs: 'flex', md: 'none' },
-                    flexGrow: 1,
                     fontFamily: 'monospace',
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'success',
+                    fontWeight: 300,
+                    color: 'White',
                     textDecoration: 'none',
                     }}
                 >
+                    LTJ Web Designs
                 </Typography>
+                <img src={Logo} alt="logo" width={50} style={{padding: "1em"}}/>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     {pages.map((page) => (
                         <If condition={page === "Contact"}>
