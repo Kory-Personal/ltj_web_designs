@@ -38,9 +38,7 @@ export default function Header(props) {
 
 
     return (
-            <AppBar position="static" sx={{
-                backgroundColor: "#000000"
-            }} enableColorOnDark="true">
+            <AppBar position="static" enableColorOnDark={true} sx={{ backgroundColor: "#000000" }} >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
 
