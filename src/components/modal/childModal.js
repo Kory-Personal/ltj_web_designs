@@ -35,6 +35,7 @@ export default function ChildModal(props) {
   const errorHandleClose = () => setErrorOpen(false);
   const successHandleClose = () => {
     setSuccessOpen(false);
+    props.reset();
     props.handleClose();
   }
 
@@ -47,19 +48,20 @@ export default function ChildModal(props) {
         errorHandleOpen()
       } else {
         const URL = process.env.REACT_APP_LOCAL
-        const values = {
-            name: `${props.first} ${props.last}`,
-            email: props.email,
-            number: props.number,
-            message: props.message
-        }
+        // const values = {
+        //     name: `${props.first} ${props.last}`,
+        //     email: props.email,
+        //     number: props.number,
+        //     message: props.message
+        // }
         await axios({
           method: 'POST',
-          url: `${URL}/send`,
+          url: `${URL}/contact-email`,
           crossDomain: true,
-          data: values
+          data: props.formValues
         })
         successHandleOpen();
+        props.reset();
       }
     } catch (e) {
       console.log(e);
@@ -122,7 +124,7 @@ export default function ChildModal(props) {
             </Alert>
         </Modal>
         <div style={{display: "flex", width: '50%', padding: "1em 0 1em 0"}}>
-            <Button sx={{width: "50%"}} onClick={onSubmit}>Submit</Button>
+            <Button sx={{width: "50%"}} id='form-submit' onClick={onSubmit}>Submit</Button>
             <Button sx={{width: "50%"}} onClick={props.handleClose}>Cancel</Button>
         </div>
         <ReCAPTCHA
