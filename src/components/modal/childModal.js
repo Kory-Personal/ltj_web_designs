@@ -35,6 +35,7 @@ export default function ChildModal(props) {
   const errorHandleClose = () => setErrorOpen(false);
   const successHandleClose = () => {
     setSuccessOpen(false);
+    props.reset();
     props.handleClose();
   }
 
@@ -60,6 +61,7 @@ export default function ChildModal(props) {
           data: props.formValues
         })
         successHandleOpen();
+        props.reset();
       }
     } catch (e) {
       console.log(e);

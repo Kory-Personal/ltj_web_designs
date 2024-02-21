@@ -48,13 +48,7 @@ const mobile = {
 }
 
 export default function ContactPage(props) {
-  const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [number, setNumber] = useState();
-  const [first, setFirst] = useState();
-  const [last, setLast] = useState();
-  const [email, setEmail] = useState();
-  const [message, setMessage] = useState();
 
   const [formValues, setFormValues] = useState({
     first: "",
@@ -67,13 +61,11 @@ export default function ContactPage(props) {
 
 
 
-  const handleOpen = () => setOpen(true);
   const handleMobileOpen = () => {
     setMobileOpen(true);
     props.handleCloseNavMenu();
   }
   const handleClose = () => {
-    setOpen(false);
     setMobileOpen(false);
 }
   
@@ -96,9 +88,14 @@ export default function ContactPage(props) {
     
   }
 
-  const reset = (e) =
-  > {
-
+  const reset = (e) => {
+    setFormValues({
+      first: "",
+      last: "",
+      email: "",
+      number: "",
+      message: ""
+    })
   }
     const muiTestFieldProps = {
       fullWidth: true,
@@ -125,7 +122,7 @@ export default function ContactPage(props) {
                 component="form"
                 sx={mobile}
                 noValidate
-                autoComplete="off"
+                autoComplete="on"
               >
                 <div>
                   <TextField
@@ -151,12 +148,13 @@ export default function ContactPage(props) {
                     label="E-Mail"
                     variant="standard"
                     onChange={handleInput}
+                    value={formValues.email}
                   />
                   <PatternFormat 
                     type="tel"
                     format="(###) ###-####" 
                     mask="_" 
-                    value={number}
+                    value={formValues.number}
                     required
                     customInput={TextField}
                     {...muiTestFieldProps}
@@ -171,6 +169,7 @@ export default function ContactPage(props) {
                     onChange={handleInput}
                   />
                   <ChildModal
+                    reset={reset}
                     formValues={formValues}
                     style= {style}
                     handleClose= {handleClose}
@@ -183,7 +182,6 @@ export default function ContactPage(props) {
         <Else>
           <Button
               key={''}
-              onClick={handleOpen}
               sx={{ my: 2, color: 'white', display: 'block', fontSize: '1.5em', paddingLeft: '2rem'}}
               color='success'
               >
@@ -193,7 +191,7 @@ export default function ContactPage(props) {
               component="form"
               sx={style}
               noValidate
-              autoComplete="off"
+              autoComplete="on"
             >
               <div>
                 <TextField
@@ -202,6 +200,7 @@ export default function ContactPage(props) {
                   label="First Name"
                   variant="standard"
                   onChange={handleInput}
+                  value={formValues.first}
                 />
                 <TextField
                   required
@@ -209,6 +208,7 @@ export default function ContactPage(props) {
                   label="Last Name"
                   variant="standard"
                   onChange={handleInput}
+                  value={formValues.last}
                 />
                 <TextField
                   required
@@ -216,12 +216,13 @@ export default function ContactPage(props) {
                   label="E-Mail"
                   variant="standard"
                   onChange={handleInput}
+                  value={formValues.email}
                 />
                 <PatternFormat 
                   type="tel"
                   format="(###) ###-####" 
                   mask="_" 
-                  value={number}
+                  value={formValues.number}
                   required
                   customInput={TextField}
                   {...muiTestFieldProps}
@@ -234,8 +235,10 @@ export default function ContactPage(props) {
                   rows={4}
                   variant="standard"
                   onChange={handleInput}
+                  value={formValues.message}
                 />
                 <ChildModal
+                  reset={reset}
                   formValues={formValues}
                   style= {style}
                   handleClose= {handleClose}

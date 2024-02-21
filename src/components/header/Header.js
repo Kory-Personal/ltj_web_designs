@@ -16,11 +16,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Logo from "../../assets/images/LTJWebDesigns.png"
 
 // Components
-import BasicModal from '../modal/modal';
+// import BasicModal from '../modal/modal';
 
 // React Imports
-import { If, Then, Else } from 'react-if';
-import { Outlet, Link } from 'react-router-dom';
+// import { If, Then, Else } from 'react-if';
+import { Link } from 'react-router-dom';
 
 
 
