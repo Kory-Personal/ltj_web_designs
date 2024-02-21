@@ -20,27 +20,32 @@ import BasicModal from '../modal/modal';
 
 // React Imports
 import { If, Then, Else } from 'react-if';
+import { Outlet, Link } from 'react-router-dom';
 
 
-const pages = ['Services', 'About Me', 'Contact'];
 
 export default function Header(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
-  
+    
     const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
+        setAnchorElNav(event.currentTarget);
     };
-  
+    
     const handleCloseNavMenu = () => {
-      setAnchorElNav(null);
+        setAnchorElNav(null);
     };
-
-
+    
+    
+    const pages = [
+        { name: 'Services', link: '/services'},
+        { name: 'About Me', link: '/about-me'},
+        { name: 'Contact',  link: '/contact'}
+    ];
 
     return (
             <AppBar position="static" sx={{
                 backgroundColor: "#000000"
-            }} enableColorOnDark="true">
+            }} >
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
 
@@ -74,16 +79,16 @@ export default function Header(props) {
                     }}
                     >
                     {pages.map((page) => (
-                        <If condition={page === "Contact"}>
-                            <Then>
-                                <BasicModal orientation="mobile" handleCloseNavMenu={handleCloseNavMenu}/>
-                            </Then>
-                            <Else>
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                        // <If condition={page === "Contact"}>
+                        //     <Then>
+                        //         <BasicModal orientation="mobile" handleCloseNavMenu={handleCloseNavMenu}/>
+                        //     </Then>
+                        //     <Else>
+                                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                                    <Typography textAlign="center"><Link to={page.link}>{page.name}</Link></Typography>
                                 </MenuItem>
-                            </Else>
-                        </If>
+                        //     </Else>
+                        // </If>
                     
                     ))}
                     </Menu>
@@ -107,21 +112,21 @@ export default function Header(props) {
                 <img src={Logo} alt="logo" width={50} style={{padding: "1em"}}/>
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                     {pages.map((page) => (
-                        <If condition={page === "Contact"}>
-                            <Then>
-                                <BasicModal />
-                            </Then>
-                            <Else>
+                        // <If condition={page === "Contact"}>
+                        //     <Then>
+                        //         <Link to='contact'>
+                        //     </Then>
+                        //     <Else>
                                 <Button
-                                    key={page}
+                                    key={page.name}
                                     onClick={handleCloseNavMenu}
-                                    sx={{ my: 2, color: 'white', display: 'block', fontSize: '1.5em', paddingLeft: '2rem'}}
+                                    sx={{ my: 2, color: 'white', display: 'block', fontSize: '1.5em', paddingLeft: '2rem', textDecoration: 'none'}}
                                     color='success'
                                     >
-                                    {page}
+                                    <Link style={{textDecoration: 'none', color: 'white'}} to={page.link}>{page.name}</Link>
                                 </Button>
-                            </Else>
-                        </If>
+                        //     </Else>
+                        // </If>
                     ))}
                 </Box>
                 </Toolbar>
